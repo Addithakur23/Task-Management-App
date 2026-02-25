@@ -4,7 +4,7 @@ import { Link,Outlet } from 'react-router-dom'
 function Navbar({user,setUser}){
     const navigate=useNavigate()
     const handleLogout=async()=>{
-        await fetch("http://localhost:3000/api/logout",{method:"POST",credentials:'include'})
+        await fetch("https://task-management-app-backend-d79n.onrender.com/api/logout",{method:"POST",credentials:'include'})
         setUser(null)
         navigate("/login")
     }

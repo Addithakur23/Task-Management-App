@@ -10,7 +10,7 @@ const Signup = () => {
   const [Password, setPassword] = useState("")
   let navigate = useNavigate()
   async function handleSignups() {
-    let res = await fetch("http://localhost:3000/api/Signup", {
+    let res = await fetch("https://task-management-app-backend-d79n.onrender.com/api/Signup", {
       method: "POST", headers: {
         "Content-Type": "application/json"
       }, body: JSON.stringify({ Name, Email, Password })
@@ -20,7 +20,6 @@ const Signup = () => {
       setEmail("")
       setName("")
       setPassword("")
-      alert("Signup successful")
       navigate("/login")
     }
   }

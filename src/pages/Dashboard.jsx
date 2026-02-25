@@ -15,7 +15,7 @@ const Dashboard = () => {
 
    async function fetchTasks(){
 
-          try{  let res1=await fetch("http://localhost:3000/api/tasks",{method:"GET",credentials:'include'})
+          try{  let res1=await fetch("https://task-management-app-backend-d79n.onrender.com/api/tasks",{method:"GET",credentials:'include'})
         let tasks=await res1.json()
         if(!tasks || tasks.length==0){
           return "No tasks available"
@@ -37,7 +37,7 @@ const Dashboard = () => {
     async function handleTasks(){
 if(EditingId){
     
-    let res=await fetch(`http://localhost:3000/api/tasks/${EditingId}`,{method:"PUT",credentials:'include',
+    let res=await fetch(`https://task-management-app-backend-d79n.onrender.com/api/tasks/${EditingId}`,{method:"PUT",credentials:'include',
       headers:{
       "Content-Type": "application/json"
     },body:JSON.stringify({Title,Description,Status})})
@@ -47,7 +47,7 @@ if(EditingId){
 
 }
 else{
-    let res=await fetch("http://localhost:3000/api/tasks",{method:"POST",credentials:'include',headers:{
+    let res=await fetch("https://task-management-app-backend-d79n.onrender.com/api/tasks",{method:"POST",credentials:'include',headers:{
   "Content-Type": "application/json"
 },body:JSON.stringify({Title,Description,Status})})
 let data=await res.json()
@@ -67,7 +67,7 @@ console.log("task Created : ",data)
     }
 async function handleDelete(id){
         
-          let res=await fetch(`http://localhost:3000/api/tasks/${id}`,{method:"DELETE",credentials:'include',headers:{
+          let res=await fetch(`https://task-management-app-backend-d79n.onrender.com/api/tasks/${id}`,{method:"DELETE",credentials:'include',headers:{
       "Content-Type": "application/json"
     }})
     let data=await res.json()

@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+MONGO_URI="mongodb+srv://pundhiraditya428_db_user:3i6d7gWrYcLMNOgN@cluster5.ekkdi8j.mongodb.net/task_Manager"
+JWT_SECRET="hiiTaskadi"
+NODE_ENV="Production"
