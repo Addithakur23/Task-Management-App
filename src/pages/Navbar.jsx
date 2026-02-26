@@ -1,12 +1,20 @@
 import React from 'react'
 import {useNavigate } from 'react-router-dom'
 import { Link,Outlet } from 'react-router-dom'
+const BASE_URL=import.meta.env.VITE_API_URL
 function Navbar({user,setUser}){
     const navigate=useNavigate()
     const handleLogout=async()=>{
-        await fetch("https://task-management-app-backend-d79n.onrender.com/api/logout",{method:"POST",credentials:'include'})
+     try {const res=  await fetch(`${BASE_URL}/api/logout`,{method:"POST",credentials:'include'})
+      if(!res.ok){
+        console.log("Logout Failed")
+        return
+      }
         setUser(null)
-        navigate("/login")
+        navigate("/login")}
+        catch(err){
+          console.log("Logout Error : ",err)
+        }
     }
   return (
     <div>

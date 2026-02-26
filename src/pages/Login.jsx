@@ -2,20 +2,24 @@ import React from 'react'
 import { useState } from 'react'
 // import BASE_URL from '../config.js'
 import { Link,useNavigate } from 'react-router-dom'
+const BASE_URL=import.meta.env.VITE_API_URL
 const Login = () => {
     const [Email, setEmail] = useState("")
     const [Password, setPassword] = useState("")
+    const [User, setUser] = useState(null)
     let navigate=useNavigate()
     async function handleLogins() {
       // e.preventDefault()
-     let res=await fetch("https://task-management-app-backend-d79n.onrender.com/api/Login",{method:"POST",credentials:'include',headers:{
+     let res=await fetch(`${BASE_URL}/api/Login`,{method:"POST",credentials:'include',headers:{
       "Content-Type": "application/json"
     },body:JSON.stringify({Email,Password})})
+
     const data=await res.json()
     if(data.success==true){
       document.querySelector(".message").innerHTML="Login Successful"
       document.querySelector(".message").classList.add("text-green-500")
        document.querySelector(".message").classList.remove("text-red-600")
+       setUser(data)
        navigate("/dashboard")
     }
     else{
@@ -28,7 +32,7 @@ const Login = () => {
   return (
    <>
    <form >
-   <div className="container flex flex-col  justify-center  mx-auto mt-28 sm:w-[27%]  md:w-[40%] py-4 ">
+   <div className="container flex flex-col  justify-center  mx-auto mt-28 sm:w-[27%]  md:w-[35%] lg:w-[30%]  py-4 ">
       <div className="inputs space-y-2 border border-black p-6 rounded-lg">
 
       <div className='text-3xl font-bold text-center'>Login</div>

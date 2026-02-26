@@ -5,12 +5,13 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { Link,Outlet } from 'react-router-dom'
 import Navbar from './pages/Navbar.jsx'
+const BASE_URL=import.meta.env.VITE_API_URL
 
 function App() { 
   const [User, setUser] = useState(null)
 useEffect(() => {
 
-    fetch("https://task-management-app-backend-d79n.onrender.com/api/me",{credentials:'include'})
+    fetch(`${BASE_URL}/api/me`,{credentials:'include'})
   
   .then(res=>res.json())
   .then(data=>{

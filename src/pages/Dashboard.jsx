@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useState,useEffect } from 'react'
+const BASE_URL=import.meta.env.VITE_API_URL
 const Dashboard = () => {
     const [Title, setTitle] = useState("")
     const [Description, setDescription] = useState("")
@@ -15,7 +16,8 @@ const Dashboard = () => {
 
    async function fetchTasks(){
 
-          try{  let res1=await fetch("https://task-management-app-backend-d79n.onrender.com/api/tasks",{method:"GET",credentials:'include'})
+          try{
+              let res1=await fetch(`${BASE_URL}/api/tasks`,{method:"GET",credentials:'include'})
         let tasks=await res1.json()
         if(!tasks || tasks.length==0){
           return "No tasks available"
@@ -37,19 +39,21 @@ const Dashboard = () => {
     async function handleTasks(){
 if(EditingId){
     
-    let res=await fetch(`https://task-management-app-backend-d79n.onrender.com/api/tasks/${EditingId}`,{method:"PUT",credentials:'include',
+    let res=await fetch(`${BASE_URL}/api/tasks/${EditingId}`,{method:"PUT",credentials:'include',
       headers:{
       "Content-Type": "application/json"
     },body:JSON.stringify({Title,Description,Status})})
+    
     let updatedTask=await res.json()
     setTasks((prev)=>prev.map((task)=> task._id==EditingId?updatedTask:task));
     setEditingId(null)
 
 }
 else{
-    let res=await fetch("https://task-management-app-backend-d79n.onrender.com/api/tasks",{method:"POST",credentials:'include',headers:{
+    let res=await fetch(`${BASE_URL}/api/tasks`,{method:"POST",credentials:'include',headers:{
   "Content-Type": "application/json"
 },body:JSON.stringify({Title,Description,Status})})
+
 let data=await res.json()
 if(!res.ok){
     console.log("Error : ",data)
@@ -67,9 +71,10 @@ console.log("task Created : ",data)
     }
 async function handleDelete(id){
         
-          let res=await fetch(`https://task-management-app-backend-d79n.onrender.com/api/tasks/${id}`,{method:"DELETE",credentials:'include',headers:{
+          let res=await fetch(`${BASE_URL}/api/tasks/${id}`,{method:"DELETE",credentials:'include',headers:{
       "Content-Type": "application/json"
     }})
+
     let data=await res.json()
     if(res.ok) setTasks(prev=>prev.filter(task=>task._id!==id))
   //  await fetchTasks()
@@ -84,7 +89,7 @@ async function handleEditClick(task){
 
 
   return (
-    <div className=' space-y-3 mb-5 mx-11 '>
+    <div className='max-w-3xl mx-auto space-y-3 mb-5 px-4 '>
         <div className='text-4xl font-bold mt-4 text-center'>Dashboard</div>
 
 

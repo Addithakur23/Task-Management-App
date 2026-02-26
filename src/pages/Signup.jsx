@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Login from './Login'
 import { Link, Outlet } from 'react-router-dom'
+const BASE_URL=import.meta.env.VITE_API_URL
 // import BASE_URL from '../config'
 const Signup = () => {
   const [Name, setName] = useState("")
@@ -10,7 +11,7 @@ const Signup = () => {
   const [Password, setPassword] = useState("")
   let navigate = useNavigate()
   async function handleSignups() {
-    let res = await fetch("https://task-management-app-backend-d79n.onrender.com/api/Signup", {
+    let res = await fetch(`${BASE_URL}/api/Signup`, {
       method: "POST", headers: {
         "Content-Type": "application/json"
       }, body: JSON.stringify({ Name, Email, Password })
@@ -25,7 +26,7 @@ const Signup = () => {
   }
   return (
     <form >
-      <div className="container flex flex-col  justify-center  mx-auto mt-28 sm:w-[27%]  md:w-[40%] py-4 ">
+      <div className="container flex flex-col  justify-center  mx-auto mt-28 sm:w-[27%]  md:w-[35%] lg:w-[30%] py-4 ">
         <div className="inputs space-y-2 border border-black p-6 rounded-lg">
 
           <div className='text-3xl font-bold text-center'>Sign Up</div>
