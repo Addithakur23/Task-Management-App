@@ -89,7 +89,7 @@ async function handleEditClick(task){
 
 
   return (
-    <div className='max-w-3xl mx-auto space-y-3 mb-5 px-4 '>
+    <div className='space-y-3 mb-5 mx-11 '>
         <div className='text-4xl font-bold mt-4 text-center'>Dashboard</div>
 
 
@@ -106,12 +106,12 @@ async function handleEditClick(task){
        </select>
        {/* <input type="text" placeholder='Enter Status' className='border-gray-300 border-2 rounded-md px-3 py-2 w-[50%] text-center' value={Status} onChange={(e)=>{setStatus(e.target.value)}} /> */}
 
-     <div> <button onClick={()=>{handleTasks()}} className='px-2 py-2 font-bold sm:w-[60%] w-full text-white bg-blue-600 hover:bg-blue-700 text-center rounded-lg mt-2'>{EditingId ?"update Task" : "Add Task"}</button></div>
+     <div > <button onClick={()=>{handleTasks()}} className='px-2 py-2 font-bold sm:w-[60%] w-full text-white bg-blue-600 hover:bg-blue-700 text-center rounded-lg mt-2'>{EditingId ?"update Task" : "Add Task"}</button></div>
 
-      <div className='text-3xl font-semibold mb-44'>Your Tasks</div>
+      <div className='text-3xl font-semibold '>Your Tasks</div>
       {Tasks.map((items,index)=>{
         return(
-            <div key={items._id} className='border border-gray-400 rounded-xl space-y-3 sm:w-[60%] p-4 flex justify-between '>
+            <div key={items._id} className='border border-gray-400 rounded-xl space-y-3 sm:w-[60%] p-4 flex justify-between'>
               
                <div><div className='font-bold text-2xl'>{items.Title}</div>
                 <div className='font-semibold text-xl'>{items.Description}</div>
