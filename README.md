@@ -7,7 +7,7 @@ Users can register, log in securely, and manage their tasks with authentication-
 
 ## 🚀 Live Demo
 
-Frontend: https://task-management-app-smoky-five.vercel.app/signup
+Frontend: https://task-management-app-smoky-five.vercel.app
 Backend: https://task-management-app-backend-d79n.onrender.com
 
 ---
