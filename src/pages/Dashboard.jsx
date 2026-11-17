@@ -7,35 +7,45 @@ const Dashboard = () => {
     const [Description, setDescription] = useState("")
     const [Selected, setSelected] = useState("")
     const [Tasks, setTasks] = useState([])
-    const [Status, setStatus] = useState("")
+    const [Status, setStatus] = useState("Pending")
    const [EditingId, setEditingId] = useState("")
    const [UpdatedTitle, setUpdatedTitle] = useState("")
    const [UpdatedDescription, setUpdatedDescription] = useState("")
    const [UpdateStatus, setUpdateStatus] = useState("")
    const [Users, setUsers] = useState([])
+     const [active, setActive] = useState("All");
+      const [User, setUser] = useState(null)
 
-   async function fetchTasks(){
+     
+     async function fetchTasks(status = "All") {
+       try {
+         const url =
+         status === "All"
+         ? `${BASE_URL}/api/tasks`
+         : `${BASE_URL}/api/tasks?status=${encodeURIComponent(status)}`;
+         
+         const res1 = await fetch(url, {
+           method: "GET",
+           credentials: "include"
+          });
+          
+          const data = await res1.json();
+          
+          if (!res1.ok) {
+            throw new Error(data.message || "Failed to fetch tasks");
+          }
+          
+          setTasks(data.tasks);
+          
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
 
-          try{
-              let res1=await fetch(`${BASE_URL}/api/tasks`,{method:"GET",credentials:'include'})
-        let tasks=await res1.json()
-        if(!tasks || tasks.length==0){
-          return "No tasks available"
-        }
-        if(!res1.ok) {
-          throw new Error("Failed to Fetch")
-        }
-      
-        setTasks(tasks)
-      }
-      catch(error){
-        console.log(error.message)
-      }
-    }
-   useEffect(() => {
-    fetchTasks()
-   }, [])
-   
+       
+      useEffect(() => {
+        fetchTasks()
+      }, [])
     async function handleTasks(){
 if(EditingId){
     
@@ -89,45 +99,88 @@ async function handleEditClick(task){
 
 
   return (
-    <div className='space-y-3 mb-5 mx-11 '>
-        <div className='text-4xl font-bold mt-4 text-center'>Dashboard</div>
+    <>
+    <div className='container mb-5  bg-[#f0f6fa] w-full h-full'>
+        {/* <div className='text-4xl font-bold mt-4 text-center'>Dashboard</div> */}
+<div className="main flex gap-10 justify-center flex-wrap">
+  <div className="NewTask w-[25%] border-2 border-gray-200 bg-white p-6 rounded-lg mt-10 h-[25%]">
+     <div className='font-semibold text-[16px] mb-1'>Title :  </div><input type="text" placeholder='Enter Title' className='border-gray-300 border-[1px] rounded-md px-3 py-2 w-full placeholder:text-gray-500 mb-4' value={Title} onChange={(e)=>{setTitle(e.target.value)}} />
 
+     <div className='font-semibold text-[16px] mb-1'>Description : </div> <input type="text" placeholder='Enter Description' className='border-gray-300 border-[1px] rounded-md px-3 py-2 w-full placeholder:text-gray-500 mb-4' value={Description} onChange={(e)=>{setDescription(e.target.value)}} />
 
-     <div className='font-bold text-lg'>Title :  </div><input type="text" placeholder='Enter Title' className='border-gray-300 border-2 rounded-md px-3 py-2 sm:w-[60%] w-full flex flex-col ' value={Title} onChange={(e)=>{setTitle(e.target.value)}} />
-
-     <div className='font-bold text-lg'>Description : </div> <input type="text" placeholder='Enter Description' className='border-gray-300 border-2  rounded-md px-3 py-2 sm:w-[60%] w-full' value={Description} onChange={(e)=>{setDescription(e.target.value)}} />
-
-       <div className='font-bold text-lg'>Status : </div> 
-       <select name="select" id="select" className='border-gray-300 border-2 rounded-md px-3 py-2 sm:w-[60%] w-full' value={Status} onChange={(e)=>{setStatus(e.target.value)}}>
-        <option value="">-- Choose --</option>
+       <div className='font-semibold text-[16px] mb-1'>Status : </div> 
+       <select name="select" id="select" className='border-gray-300 border-[1px] rounded-md px-3 py-2 w-full placeholder:text-gray-500 mb-4' value={Status} onChange={(e)=>{setStatus(e.target.value)}}>
         <option value="Pending ">Pending</option>
         <option value="In Progress" >In Progess</option>
         <option value="Completed" >Completed</option>
        </select>
        {/* <input type="text" placeholder='Enter Status' className='border-gray-300 border-2 rounded-md px-3 py-2 w-[50%] text-center' value={Status} onChange={(e)=>{setStatus(e.target.value)}} /> */}
 
-     <div > <button onClick={()=>{handleTasks()}} className='px-2 py-2 font-bold sm:w-[60%] w-full text-white bg-blue-600 hover:bg-blue-700 text-center rounded-lg mt-2'>{EditingId ?"update Task" : "Add Task"}</button></div>
+     <div > <button onClick={()=>{handleTasks()}} className='bg-[#9136e0] w-full rounded-lg py-2 px-3 text-white font-semibold text-[17px] hover:bg-purple-700 mb-4'>{EditingId ?"update Task" : "Add Task"}</button></div>
 
-      <div className='text-3xl font-semibold '>Your Tasks</div>
+  </div>
+   <div className="Alltasks w-[45%] h-full">
+
+      <div className='text-3xl font-semibold mt-10 mb-4'>Your Tasks</div>
+      <div className="taskList mb-5">
+        <ul className='flex gap-3 '>
+       
+
+{["All", "Pending", "In Progress", "Completed"].map((item) => (
+  <li
+    key={item}
+     onClick={() => {
+      setActive(item);
+      fetchTasks(item);
+    }}
+    className={`border border-black py-1 px-3 rounded-2xl text-[14px] cursor-pointer ${
+      active === item
+        ? "bg-black text-white"
+        : "bg-white text-black"
+    }`}
+  >
+    {item}
+  </li>
+))}
+        </ul>
+      </div>
+      <div className="tasks w-full">
       {Tasks.length==0 && (<div className=" text-2xl font-semibold mx-40 ">No Task Available</div>)}
       {Tasks.map((items,index)=>{
         return(
-            <div key={items._id} className='border border-gray-400 rounded-xl space-y-3 sm:w-[60%] p-4 flex justify-between'>
+            <div key={items._id} className='border-2 border-gray-200 bg-white py-2 px-5 w-full flex justify-between items-center mb-4 rounded-xl'>
               
-               <div><div className='font-bold text-2xl'>{items.Title}</div>
-                <div className='font-semibold text-xl'>{items.Description}</div>
-                <div className={`font-semibold ${items.Status=="Pending" ? "text-red-500" :items.Status=="Completed" ? "text-green-500" : "text-yellow-500"} text-lg`}>{items.Status}</div></div> 
-                <div className=''>
-                <button className='mx-3  px-3 py-2 text-white font-bold bg-black text-center rounded-lg' onClick={()=>{handleDelete(items._id)}}> Delete</button>
-                <button className='px-3 py-2 text-white font-bold bg-black text-center rounded-lg' onClick={()=>{handleEditClick(items)}}>Edit</button>
+               <div className='taskInfo '><div className='font-semibold text-xl'>{items.Title}</div>
+                <div className='description mb-2'>{items.Description}</div>
+                <div
+  className={`font-semibold text-[13px] w-fit py-1 px-3 rounded-xl ${
+    items.Status === "Pending"
+      ? "text-red-500 bg-yellow-100"
+      : items.Status === "Completed"
+      ? "text-green-700 bg-green-300"
+      : items.Status === "In Progress"
+      ? "text-blue-700 bg-blue-300"
+      : ""
+  }`}
+>
+  {items.Status}
+</div>
+                </div> 
+                <div className='Btns flex gap-3'>
+                <button className='  px-3 py-2 font-semibold border border-red-600 hover:text-white hover:bg-red-600 bg-white text-red-600 text-center rounded-lg' onClick={()=>{handleDelete(items._id)}}> Delete</button>
+                <button className='  px-3 py-2 font-semibold border border-blue-600 hover:text-white hover:bg-blue-600 bg-white text-blue-600 text-center rounded-lg' onClick={()=>{handleEditClick(items)}}>Edit</button>
                 
                 </div>
             </div>
     )
 
       })}
-        
+        </div>
     </div>
+   </div>
+</div>
+
+</>
   )
 }
 

@@ -16,6 +16,8 @@ const Signup = () => {
         "Content-Type": "application/json"
       }, body: JSON.stringify({ Name, Email, Password })
     })
+    const data = await res.json()
+    console.log(data)
 
     if (res.ok) {
       setEmail("")
@@ -25,27 +27,28 @@ const Signup = () => {
     }
   }
   return (
-    <form >
-      <div className="container flex flex-col  justify-center  mx-auto mt-28 sm:w-[27%]  md:w-[35%] lg:w-[30%] py-4 ">
-        <div className="inputs space-y-2 border border-black p-6 rounded-lg">
+    <form className='signupForm bg-[#f0f6fa] w-full h-screen flex justify-center '>
+      <div className="container w-[25%] mt-10 py-2">
+        <div className="signupBox border-2 border-gray-200 w-full bg-white p-6 rounded-lg">
 
-          <div className='text-3xl font-bold text-center'>Sign Up</div>
-          <div className='font-semibold text-lg'>Name</div>
+          <div className='text-3xl font-bold mb-2'>Create your account</div>
+          <div className="signupSubheading mb-4">Start organising your tasks.</div>
+          <div className='font-semibold text-[16px] mb-1'>Name</div>
 
-          <div><input type="text" placeholder='Enter Name' value={Name} onChange={(e) => { setName(e.target.value) }} className='border-gray-300 border-2 rounded-md px-3 w-full py-2' />
+          <div><input type="text" placeholder='Your name' value={Name} onChange={(e) => { setName(e.target.value) }} className='border-gray-300 border-[1px] rounded-md px-3 py-2 w-full placeholder:text-gray-500 mb-4' />
           </div>
 
-          <div className='font-semibold text-lg'>Email</div>
-          <div><input type="email" placeholder='Enter Email' value={Email} onChange={(e) => { setEmail(e.target.value) }} className='border-gray-300 border-2 rounded-md px-3 py-2 w-full' />
+          <div className='font-semibold text-[16px] mb-1'>Email</div>
+          <div><input type="email" placeholder='you@gmail.com' value={Email} onChange={(e) => { setEmail(e.target.value) }} className='border-gray-300 border-[1px] rounded-md px-3 py-2 w-full placeholder:text-gray-500 mb-4' />
           </div>
 
-          <div className='font-semibold text-lg'>Password</div>
-          <div><input type="password" placeholder='Enter Password' value={Password} onChange={(e) => { setPassword(e.target.value) }} className='border-gray-300 border-2 rounded-md px-3 py-2 mb-3  w-full' />
+          <div className='font-semibold text-[16px] mb-1'>Password</div>
+          <div><input type="password" placeholder='Create a password' value={Password} onChange={(e) => { setPassword(e.target.value) }} className='border-gray-300 border-[1px] rounded-md px-3 py-2 w-full placeholder:text-gray-500 mb-6'/>
           </div>
           
-          <button id="add" type="button" onClick={() => { handleSignups() }} className="bg-blue-500 w-full rounded-lg py-2 px-3 text-white font-bold text-lg hover:bg-blue-600">Sign Up</button>
+          <button id="add" type="button" onClick={() => { handleSignups() }} className="bg-[#9136e0] w-full rounded-lg py-2 px-3 text-white font-semibold text-[17px] hover:bg-purple-700 mb-4">Sign Up</button>
 
-          <div className='text-center'> Already Have An Account? <Link className='text-blue-600 cursor-pointer' to="/login">Login</Link> </div>
+          <div className='text-center text-[15px]'> Already Registered? <Link className='text-purple-600 cursor-pointer underline' to="/login">Login</Link> </div>
 
         </div>
       </div>
